@@ -1,27 +1,26 @@
-import {Builder} from "selenium-webdriver";
 import LoginPage from "../pages/LoginPage.js";
 import { testUser } from "..//fixtures/users.js";
 import { acronym, loginFailedMessage } from "..//asserts/loginPage.js";
-import { browser } from "..//util/params.js";
+
+// pages identification
+let loginPage = new LoginPage();
 
 // Login module test suite
 describe.only('Log in module', () => {
-    
+
+    loginPage.before();
+    loginPage.after();
+
     // happy path
     it('should log in with valid credentials', async () => {
-
-        let driver = await new Builder().forBrowser(browser).build();
-
-        // pages identification
-        let loginPage = new LoginPage(driver);
 
         // open login page 
         await loginPage.openPage();
 
-        // valid username        
+        // input valid username        
         await loginPage.inputUsername(testUser.username);
 
-        // valid password
+        // input valid password
         await loginPage.inputPassword(testUser.password);
 
         // click 'Login' button
@@ -29,26 +28,19 @@ describe.only('Log in module', () => {
 
         // login verification
         await loginPage.loginVerification(acronym);
-
-        await driver.quit();
         
     });
 
     // negative (valid username and invalid password)
     it('should show \'Login failed.\' message with valid username and invalid password ', async () => {
 
-        let driver = await new Builder().forBrowser(browser).build();
-
-        // pages identification
-        let loginPage = new LoginPage(driver);
-
         // open login page 
         await loginPage.openPage();
 
-        // valid username        
+        // input valid username        
         await loginPage.inputUsername(testUser.username);
 
-        // invalid password
+        // input invalid password
         await loginPage.inputPassword(testUser.invalidPassword);
 
         // click 'Login' button
@@ -56,9 +48,23 @@ describe.only('Log in module', () => {
 
         // login failed message verification
         await loginPage.unvalidPasswordVerification(loginFailedMessage);
-
-        await driver.quit();
         
     });
 
+        // security (password copy disabled)
+        it('should disable password copy', async () => {
+    
+            // open login page 
+            await loginPage.openPage();
+
+            // input username
+            await loginPage.inputUsername(testUser.username);
+    
+            // input invalid password
+            await loginPage.inputPassword(testUser.invalidPassword);
+                
+            // copy password disabled verification
+            await loginPage.passDisabledVerification(testUser.username);
+
+        });
 });

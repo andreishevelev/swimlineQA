@@ -1,10 +1,9 @@
-import { By, until } from "selenium-webdriver";
+import { By, until, Key } from "selenium-webdriver";
 import { timeout, longTimeout} from "../util/params.js";
 import { welcomePageURL } from "./WelcomePage.js";
 import { expect } from "chai";
 import { loginFailedMessage } from "..//asserts/loginPage.js";
-import ActionsBase from "../util/ActionsBase.js";
-
+import BasePage from "./BasePage.js";
 
 // pre conditions
 export let loginPageURL = 'https://qa-practical.qa.swimlane.io/login';
@@ -16,16 +15,10 @@ export let passwordLocator = By.id('input-2');
 export let loginButtonLocator = By.xpath('//*[@type=\'submit\']');
 export let acronymLocator = By.css('.acronym');
 export let loginFailedMessageLocator = By.xpath('//*[text()=\''+ loginFailedMessage +'\']');
+export let welcomeHeaderLocator = By.xpath('//*[text()=\'Welcome to Swimlane\']');
 
-export default class LoginPage extends ActionsBase {
 
-    driver;
-
-    constructor(driver) {
-        super();
-        this.driver = driver;
-    }
-    
+export default class LoginPage extends BasePage {
 
         // open login page 
         async openPage(){
@@ -50,19 +43,42 @@ export default class LoginPage extends ActionsBase {
 
         // login verification
         async loginVerification(expectedText){
-        await this.driver.wait(until.urlIs(welcomePageURL),timeout);
-        await this.driver.wait(until.elementIsVisible(this.driver.findElement(acronymLocator)),timeout);
-        let actualResult = await this.driver.findElement(acronymLocator).getText();
+        await driver.wait(until.urlIs(welcomePageURL),timeout);
+        await driver.wait(until.elementIsVisible(driver.findElement(acronymLocator)),timeout);
+        let actualResult = await driver.findElement(acronymLocator).getText();
         expect(expectedText).to.equal(actualResult);
         }
 
         // login failed message verification
         async unvalidPasswordVerification(expectedText){
-            await this.driver.wait(until.elementLocated((loginFailedMessageLocator)),longTimeout);
-            await this.driver.wait(until.elementIsVisible(this.driver.findElement(loginFailedMessageLocator)),timeout);
-            let actualResult = await this.driver.findElement(loginFailedMessageLocator).getText();
+            await driver.wait(until.elementLocated((loginFailedMessageLocator)),longTimeout);
+            await driver.wait(until.elementIsVisible(driver.findElement(loginFailedMessageLocator)),timeout);
+            let actualResult = await driver.findElement(loginFailedMessageLocator).getText();
             expect(expectedText).to.equal(actualResult);
 
         }
 
+        // copy password disabled verification
+        async passDisabledVerification(expectedResult){
+
+        await driver.sleep(1000);
+        await driver.actions()
+        .doubleClick(driver.findElement(usernameLocator))
+        .click(driver.findElement(usernameLocator))
+        .keyDown(Key.COMMAND)
+        .sendKeys("c")
+        .keyUp(Key.COMMAND)
+        .doubleClick(driver.findElement(passwordLocator))
+        .keyDown(Key.COMMAND)
+        .sendKeys("c")
+        .keyUp(Key.COMMAND)
+        .doubleClick(driver.findElement(usernameLocator))
+        .click(driver.findElement(usernameLocator))
+        .keyDown(Key.COMMAND)
+        .sendKeys("v")
+        .keyUp(Key.COMMAND)
+        .perform();
+        let actualResult = await driver.findElement(usernameLocator).getAttribute('value');
+        expect(expectedResult).to.equal(actualResult);
+        }
 }

@@ -7,3 +7,4 @@ export const testUser = {
     password : "RLQbM8HCEj",
     invalidPassword : "RLQbM8HCE"
 }
+
