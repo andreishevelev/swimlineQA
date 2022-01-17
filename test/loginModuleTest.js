@@ -1,15 +1,15 @@
 import LoginPage from "../pages/LoginPage.js";
-import { testUser } from "..//fixtures/users.js";
-import { acronym, loginFailedMessage } from "..//asserts/loginPage.js";
+import {testUser} from "../fixtures/testData.js";
+import {acronym, loginFailedMessage} from "..//asserts/loginPage.js";
 
 // pages identification
 let loginPage = new LoginPage();
 
 // Login module test suite
-describe.only('Log in module', () => {
+describe('Log in module', () => {
 
-    loginPage.before();
-    loginPage.after();
+    loginPage.beforeBase();
+    loginPage.afterBase();
 
     // happy path
     it('should log in with valid credentials', async () => {
@@ -28,7 +28,7 @@ describe.only('Log in module', () => {
 
         // login verification
         await loginPage.loginVerification(acronym);
-        
+
     });
 
     // negative (valid username and invalid password)
@@ -47,24 +47,23 @@ describe.only('Log in module', () => {
         await loginPage.clickLogin();
 
         // login failed message verification
-        await loginPage.unvalidPasswordVerification(loginFailedMessage);
-        
+        await loginPage.invalidPasswordVerification(loginFailedMessage);
+
     });
 
-        // security (password copy disabled)
-        it('should disable password copy', async () => {
-    
-            // open login page 
-            await loginPage.openPage();
+    // security (password copy disabled)
+    it('should disable password copy', async () => {
 
-            // input username
-            await loginPage.inputUsername(testUser.username);
-    
-            // input invalid password
-            await loginPage.inputPassword(testUser.invalidPassword);
-                
-            // copy password disabled verification
-            await loginPage.passDisabledVerification(testUser.username);
+        // open login page
+        await loginPage.openPage();
 
-        });
+        // input username
+        await loginPage.inputUsername(testUser.username);
+
+        // input invalid password
+        await loginPage.inputPassword(testUser.invalidPassword);
+
+        // copy password disabled verification
+        await loginPage.passDisabledVerification(testUser.username);
+    });
 });
