@@ -1,5 +1,3 @@
-import {By, until} from "selenium-webdriver";
-import {timeout, longTimeout} from "../util/params.js";
 import BasePage from "./BasePage.js";
 
 // pre conditions

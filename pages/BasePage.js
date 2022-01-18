@@ -1,10 +1,9 @@
-import { locateWith } from "selenium-webdriver";
-import {until, Builder, By, Key, withTagName} from "selenium-webdriver";
-import {timeout, longTimeout, browser} from "../util/params.js";
+import {Builder, until, withTagName} from "selenium-webdriver";
+import {browser, longTimeout, timeout} from "../util/params.js";
 
 export default class BasePage {
 
-    async locateVisibleEnabled(locator){
+    async locateVisibleEnabled(locator) {
         await driver.wait(until.elementLocated(locator), longTimeout);
         await driver.wait(until.elementIsVisible(driver.findElement(locator)), timeout);
         await driver.wait(until.elementIsEnabled(driver.findElement(locator)), timeout);
@@ -19,11 +18,6 @@ export default class BasePage {
     async actionClick(locator) {
         await this.locateVisibleEnabled(locator);
         await driver.findElement(locator).click();
-    }
-
-    async actionGetText(locator) {
-        await this.locateVisibleEnabled(locator);
-        await driver.findElement(locator).getText();
     }
 
     async beforeBase() {

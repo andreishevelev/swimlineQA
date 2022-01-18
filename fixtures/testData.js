@@ -2,7 +2,7 @@
 //generage valid email
 var chars = 'abcdefghijklmnopqrstuvwxyz1234567890';
 var string = '';
-for(var ii=0; ii<15; ii++){
+for (var ii = 0; ii < 15; ii++) {
     string += chars[Math.floor(Math.random() * chars.length)];
 }
 let randomEmail = (string + '@gmail.com');
@@ -37,7 +37,6 @@ export const testEmployee = {
     benefits: 'Vision',
     department: 'HR',
     id: '1234567890',
-    notes: testDataUniversal.textField,
     favoriteBand: 'Pink Floyd'
 }
 

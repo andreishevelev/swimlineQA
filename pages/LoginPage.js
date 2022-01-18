@@ -1,5 +1,5 @@
-import {By, until, Key} from "selenium-webdriver";
-import {timeout, longTimeout} from "../util/params.js";
+import {By, Key, until} from "selenium-webdriver";
+import {longTimeout, timeout} from "../util/params.js";
 import {welcomePageURL} from "./WelcomePage.js";
 import {expect} from "chai";
 import {loginFailedMessage} from "..//asserts/loginPage.js";

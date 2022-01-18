@@ -1,5 +1,4 @@
-import {By, until, Builder, withTagName, Key} from "selenium-webdriver";
-import {timeout, longTimeout} from "../util/params.js";
+import {By, Key, withTagName} from "selenium-webdriver";
 import BasePage from "./BasePage.js";
 
 // pre conditions
@@ -30,11 +29,11 @@ export let deliteButtonTextLocator = By.xpath('//*[text()=\'Delete\']');
 
 export default class NewRecordPage extends BasePage {
 
-    // lcick New record button
+    // click New record button
     async clickNewRecordButton() {
         await this.actionClick(newRecordButtonLocator);
     }
-    
+
     // input First name
     async inputFirstName(value) {
         await this.actionSendKeysBelow(firstNameLabelLocator, value, 'input');
@@ -52,7 +51,7 @@ export default class NewRecordPage extends BasePage {
 
     // input Street
     async inputStreet(value) {
-        await this.actionSendKeysBelow(streetAddressLabelLocator, value, 'textarea');  
+        await this.actionSendKeysBelow(streetAddressLabelLocator, value, 'textarea');
     }
 
     // input State
@@ -68,7 +67,7 @@ export default class NewRecordPage extends BasePage {
     // input ZIP
     async inputZIP(value) {
         let locatorBetween = await driver.findElement(withTagName('input').below(zipLabelLocator)
-        .toLeftOf(telephoneLabelLocator));
+            .toLeftOf(telephoneLabelLocator));
         await locatorBetween.sendKeys(value);
     }
 
@@ -79,39 +78,41 @@ export default class NewRecordPage extends BasePage {
 
     // input Text
     async inputText(value) {
-        let locatorBetween = await driver.findElement(withTagName('input').below(textLabelLocator).above(hiringInfoHeaderLocator));
+        let locatorBetween = await driver.findElement(withTagName('input')
+            .below(textLabelLocator)
+            .above(hiringInfoHeaderLocator));
         await locatorBetween.sendKeys(value);
 
     }
 
     // select Status
-    async selectStatus(option){
-        option === 'Full Time' ? await this.actionClickLocators(radioButtonLocators, 0):
-        option === 'Part Time' ? await this.actionClickLocators(radioButtonLocators, 1):
-        option === 'Intern' ? await this.actionClickLocators(radioButtonLocators, 2)
-        : '';
+    async selectStatus(option) {
+        option === 'Full Time' ? await this.actionClickLocators(radioButtonLocators, 0) :
+            option === 'Part Time' ? await this.actionClickLocators(radioButtonLocators, 1) :
+                option === 'Intern' ? await this.actionClickLocators(radioButtonLocators, 2)
+                    : '';
     }
 
     // select Department
-    async selectDepartment(option){
-        option === 'Engineering' ? await this.actionClickLocators(radioButtonLocators, 3):
-        option === 'Sales' ? await this.actionClickLocators(radioButtonLocators, 4):
-        option === 'Accounting' ? await this.actionClickLocators(radioButtonLocators, 5):
-        option === 'Products' ? await this.actionClickLocators(radioButtonLocators, 6):
-        option === 'Custodial' ? await this.actionClickLocators(radioButtonLocators, 7):
-        option === 'HR' ? await this.actionClickLocators(radioButtonLocators, 8):
-        option === 'Marketing' ? await this.actionClickLocators(radioButtonLocators, 9):
-        option === 'Other' ? await this.actionClickLocators(radioButtonLocators, 10)
-        : '';
+    async selectDepartment(option) {
+        option === 'Engineering' ? await this.actionClickLocators(radioButtonLocators, 3) :
+            option === 'Sales' ? await this.actionClickLocators(radioButtonLocators, 4) :
+                option === 'Accounting' ? await this.actionClickLocators(radioButtonLocators, 5) :
+                    option === 'Products' ? await this.actionClickLocators(radioButtonLocators, 6) :
+                        option === 'Custodial' ? await this.actionClickLocators(radioButtonLocators, 7) :
+                            option === 'HR' ? await this.actionClickLocators(radioButtonLocators, 8) :
+                                option === 'Marketing' ? await this.actionClickLocators(radioButtonLocators, 9) :
+                                    option === 'Other' ? await this.actionClickLocators(radioButtonLocators, 10)
+                                        : '';
     }
 
     // select Benefits
-    async selectBenefits(option){
-        option === '401k' ? await this.actionClickLocators(radioButtonLocators, 11):
-        option === 'Medical' ? await this.actionClickLocators(radioButtonLocators, 12):
-        option === 'Dental' ? await this.actionClickLocators(radioButtonLocators, 13):
-        option === 'Vision' ? await this.actionClickLocators(radioButtonLocators, 14)
-        : '';
+    async selectBenefits(option) {
+        option === '401k' ? await this.actionClickLocators(radioButtonLocators, 11) :
+            option === 'Medical' ? await this.actionClickLocators(radioButtonLocators, 12) :
+                option === 'Dental' ? await this.actionClickLocators(radioButtonLocators, 13) :
+                    option === 'Vision' ? await this.actionClickLocators(radioButtonLocators, 14)
+                        : '';
     }
 
     // input Employee ID
@@ -125,7 +126,7 @@ export default class NewRecordPage extends BasePage {
     }
 
     // click 'Post Comment' button
-    async clickPostComment(){
+    async clickPostComment() {
         await this.actionClick(postCommentButtonLocator);
     }
 
@@ -139,19 +140,20 @@ export default class NewRecordPage extends BasePage {
         await driver.findElement(favoriteBandInputLocator).sendKeys(Key.ENTER);
     }
 
-    // click 'Post Comment' button
-    
+    // click 'Save' button
     async clickSave() {
         await this.actionClick(clickSaveTextLocator);
     }
 
+    // click 'Save' popup button
     async clickSavePopup() {
         await this.actionClick(clickSavePopupLocator);
     }
 
+    // verify record creation
     async recordCreatedVerification() {
         await driver.sleep(2000);
         await this.actionClick(deliteButtonTextLocator);
         await this.actionClick(clickDeletePopupLocator);
-    } 
+    }
 }
