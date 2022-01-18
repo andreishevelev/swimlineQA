@@ -37,13 +37,13 @@ export default class LoginPage extends BasePage {
     }
 
     // input username
-    async inputUsername(username) {
-        await this.actionSendKeys(usernameLocator, username);
+    async inputUsername(value) {
+        await this.actionSendKeys(usernameLocator, value);
     }
 
     // input password
-    async inputPassword(password) {
-        await this.actionSendKeys(passwordLocator, password);
+    async inputPassword(value) {
+        await this.actionSendKeys(passwordLocator, value);
     }
 
     // click 'Login' button
